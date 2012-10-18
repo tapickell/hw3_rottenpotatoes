@@ -1,11 +1,14 @@
 # Add a declarative step here for populating the DB with movies.
+# ??? need to use seeds.rb to populate the db before testing / migrate db:seeds
+
 
 Given /the following movies exist/ do |movies_table|
   movies_table.hashes.each do |movie|
     # each returned element will be a hash whose key is the table header.
     # you should arrange to add that movie to the database here.
+    Movie.create!(movie)
   end
-  flunk "Unimplemented"
+  #flunk "Unimplemented"
 end
 
 # Make sure that one string (regexp) occurs before or after another one
