@@ -43,16 +43,20 @@ When /^I press (.*)$/ do |press|
   click_button(press)
 end
 
-When /^I follow (.*)$/ do |pressed|
-        click_link(pressed)
+When /^I follow (.*)$/ do |press|
+  click_link(press)
 end
 
 Then /I should see all the movies/ do
-        assert all("table#movies tbody tr").count == 10
-        end
+  if page.respond_to? :should
+    page.should have_content(Movie.all)
+  end
+end
 
-Then /"I shouldn't see any movies"/ do
-        assert all("table#movies tbody tr").count == 0
+Then /I should not see any movies/ do
+  if page.respond_to? :should
+    page.should have_no_content(Movie.all)
+  end
 end
 
 Then /I should see: (.*)/ do |title_list|
@@ -68,11 +72,20 @@ Then /I should not see: (.*)/ do |title_list|
   titles = title_list.split(", ")
   titles.each do |title|
     if page.respond_to? :should_not
-      page.should_not have_content(title)
+      page.should have_no_content(title)
     end
   end
 end
 
+Then /I should see movies sorted alphabetically/ do
+  if page.respond_to? :should
+    page.should have_content(Movie.order('title'))
+  end
+end
 
-
+Then /I should see movies sorted by release date in ascending order/ do
+  if page.respond_to? :should
+    page.should have_content(Movie.order('release_date'))
+  end
+end
 
