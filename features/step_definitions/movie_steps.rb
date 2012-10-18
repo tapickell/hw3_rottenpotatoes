@@ -38,3 +38,41 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   end
 
 end
+
+When /^I press (.*)$/ do |press|
+  click_button(press)
+end
+
+When /^I follow (.*)$/ do |pressed|
+        click_link(pressed)
+end
+
+Then /I should see all the movies/ do
+        assert all("table#movies tbody tr").count == 10
+        end
+
+Then /"I shouldn't see any movies"/ do
+        assert all("table#movies tbody tr").count == 0
+end
+
+Then /I should see: (.*)/ do |title_list|
+  titles = title_list.split(", ")
+  titles.each do |title|
+    if page.respond_to? :should
+      page.should have_content(title)
+    end
+  end
+end
+
+Then /I should not see: (.*)/ do |title_list|
+  titles = title_list.split(", ")
+  titles.each do |title|
+    if page.respond_to? :should_not
+      page.should_not have_content(title)
+    end
+  end
+end
+
+
+
+
